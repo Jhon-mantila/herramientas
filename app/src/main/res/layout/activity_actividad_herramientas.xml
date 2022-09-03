@@ -17,8 +17,10 @@
     </fragment>
 
     <RelativeLayout
+        android:id="@+id/herramientas"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"></RelativeLayout>
+        android:gravity="center"
+        tools:layout_editor_absoluteY="70dp"></RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
