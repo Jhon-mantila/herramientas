@@ -1,5 +1,7 @@
 package com.example.herramientas;
 
+import android.app.Activity;
+import android.media.Image;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +17,10 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class Linterna extends Fragment {
+
+    private ImageView botonCamara;
+    //inicializarlo
+    private Boolean encendida = false;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -59,6 +66,43 @@ public class Linterna extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_linterna, container, false);
+        View fragmento =  inflater.inflate(R.layout.fragment_linterna, container, false);
+
+        botonCamara = (ImageView) fragmento.findViewById(R.id.linterna);
+
+        botonCamara.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(encendida){
+                    botonApagaFlash();
+                    //Simulando un boton on/off
+                    encendida = false;
+                }else{
+                    botonEnciendeFlash();
+                    //Simulando un boton on/off
+                   encendida = true;
+                }
+
+            }
+        });
+
+        return fragmento;
+    }
+
+    public void botonEnciendeFlash(){
+        botonCamara.setImageResource(R.drawable.linterna2);
+        //Polimorfismo
+        Activity esteFragmento = getActivity();
+        //interfaz para la lineterna para pasar el parametro
+        ((ManejaFlashCamara)esteFragmento).enciedeApaga(encendida);
+
+    }
+    public void botonApagaFlash(){
+        botonCamara.setImageResource(R.drawable.linterna);
+        //Polimorfismo
+        Activity esteFragmento = getActivity();
+        //interfaz para la lineterna para pasar el parametro
+        ((ManejaFlashCamara)esteFragmento).enciedeApaga(encendida);
     }
 }

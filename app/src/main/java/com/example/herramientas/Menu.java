@@ -19,6 +19,10 @@ public class Menu extends Fragment {
 
     private final int [] BOTONES_MENU = {R.id.linterna, R.id.musica, R.id.nivel};
 
+    private final int [] BOTONES_ILUMINADOS = {R.drawable.linterna2, R.drawable.musica2, R.drawable.nivel2 };
+
+    private int boton ;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -65,11 +69,23 @@ public class Menu extends Fragment {
         // Inflate the layout for this fragment
         View mimenu =  inflater.inflate(R.layout.fragment_menu, container, false);
 
+        //PARTE DEL MENU PROGRAMATICO
+
+        boton = -1;
+
+        if(getArguments() != null)
+        boton = getArguments().getInt("BOTONPULSADO");
+
         ImageButton botonMenu;
 
         for (int i=0; i<BOTONES_MENU.length; i++){
             //Recorro el array de los botones
             botonMenu =(ImageButton) mimenu.findViewById(BOTONES_MENU[i]);
+
+            //REASIGNAR EL BOTON CON FONDO AMARILLO
+            if(boton == i){
+                botonMenu.setImageResource(BOTONES_ILUMINADOS[i]);
+            }
 
             final int queBoton = i;
 
