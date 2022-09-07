@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Context;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -17,7 +18,7 @@ public class ActividadHerramientas extends AppCompatActivity implements Comunica
     private Fragment[] misFragmentos;
     private CameraManager miCamara;
 
-    private String[] idCamara;
+    private String idCamara;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,16 @@ public class ActividadHerramientas extends AppCompatActivity implements Comunica
         Bundle extras = getIntent().getExtras();
 
         menu(extras.getInt("BOTON_PULSADO"));
+
+        miCamara = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+
+        try {
+
+         idCamara = miCamara.getCameraIdList()[0];
+
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
     }
 
     public void menu(int queBoton){
@@ -61,19 +72,20 @@ public class ActividadHerramientas extends AppCompatActivity implements Comunica
 
     @Override
     public void enciedeApaga(boolean estadoFlash) {
-        if (estadoFlash){
-            Toast.makeText(this, "Flash Apagado", Toast.LENGTH_SHORT).show();
+        try {
 
-            miCamara = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
-
-            try {
-                idCamara = miCamara.getCameraIdList();
-            } catch (CameraAccessException e) {
-                e.printStackTrace();
+            if (estadoFlash){
+                Toast.makeText(this, "Flash Apagado", Toast.LENGTH_SHORT).show();
+                miCamara.setTorchMode(idCamara, false);
+            }else{
+                Toast.makeText(this, "Flash Encendio", Toast.LENGTH_SHORT).show();
+                //para indicarle versiones
+                //if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                miCamara.setTorchMode(idCamara, true);
             }
 
-        }else{
-            Toast.makeText(this, "Flash Encendio", Toast.LENGTH_SHORT).show();
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 }
